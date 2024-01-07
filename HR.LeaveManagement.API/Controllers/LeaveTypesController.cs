@@ -1,4 +1,6 @@
-﻿using HR.LeaveManagement.Application.Features.LeaveType.Commands.CreateLeaveType;
+﻿using HR.LeaveManagement.Application.Features.LeaveAllocation.Queries.GetLeaveAllocationDetails;
+using HR.LeaveManagement.Application.Features.LeaveAllocation.Requests.Commands;
+using HR.LeaveManagement.Application.Features.LeaveType.Commands.CreateLeaveType;
 using HR.LeaveManagement.Application.Features.LeaveType.Commands.DeleteLeaveType;
 using HR.LeaveManagement.Application.Features.LeaveType.Commands.UpdateLeaveType;
 using HR.LeaveManagement.Application.Features.LeaveType.Queries.GetAllLeaveTypes;
@@ -30,9 +32,9 @@ namespace HR.LeaveManagement.API.Controllers
 
         // GET api/<LeaveTypesController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<LeaveTypeDetailsDto>> Get(int id)
+        public async Task<ActionResult<LeaveAllocationDetailsDto>> Get(int id)
         {
-            var leaveType = await mediator.Send(new GetLeaveTypeDetailsQuery(id));
+            var leaveType = await mediator.Send(new GetLeaveAllocationDetailsQuery(id));
             return Ok(leaveType);
         }
 
@@ -40,7 +42,7 @@ namespace HR.LeaveManagement.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Post(CreateLeaveTypeCommand leaveType)
+        public async Task<ActionResult> Post(CreateLeaveAllocationCommand leaveType)
         {
             var response = await mediator.Send(leaveType);
             return CreatedAtAction(nameof(Get), new { id = response });
@@ -66,7 +68,7 @@ namespace HR.LeaveManagement.API.Controllers
         [ProducesDefaultResponseType]
         public async Task<ActionResult> Delete(int id)
         {
-            var command = new DeleteLeaveTypeCommand 
+            var command = new DeleteLeaveAllocationCommand 
             {
                 Id = id
             };
